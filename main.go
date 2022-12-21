@@ -27,7 +27,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	path := strings.Replace(".git", "", repo.Path, -1)
+	path := strings.ReplaceAll(repo.Path, ".git", "")
 
 	gopath, err := getOutput("go env GOPATH")
 	if err != nil {
