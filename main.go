@@ -10,15 +10,24 @@ import (
 	"strings"
 )
 
+const (
+	VERSION = "0.0.1"
+)
+
 // git clone ssh://git@git.maujagroup.com:1960/ms/mercadolibre-webhook.git `go env GOPATH`/src/git.maujagroup.com/ms/mercadolibre-webhook
 func main() {
 	flag.Parse()
-	repoStr := flag.Arg(0)
+	repoStr := strings.Trim(flag.Arg(0), "")
+
+	if repoStr == "version" {
+		fmt.Println(VERSION)
+		return
+	}
 	repo, err := url.Parse(repoStr)
 	if err != nil {
 		log.Fatal(err)
 	}
-	path := strings.Replace(".git", "", repo.Path, 0)
+	path := strings.Replace(".git", "", repo.Path, -1)
 
 	gopath, err := getOutput("go env GOPATH")
 	if err != nil {
